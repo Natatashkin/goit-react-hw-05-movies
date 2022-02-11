@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Thumb, Title } from './MovieCard.styled';
 import createImageUrl from '../../helpers/createImageUrl';
 import defaultImage from '../../images/no-image.png';
@@ -20,4 +21,11 @@ export const MovieCard = ({ details }) => {
       </Title>
     </>
   );
+};
+
+MovieCard.propTypes = {
+  details: PropTypes.shape({
+    title: PropTypes.string,
+    poster_path: PropTypes.string,
+  }),
 };

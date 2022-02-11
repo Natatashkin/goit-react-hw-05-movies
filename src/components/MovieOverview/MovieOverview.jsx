@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import createImageUrl from '../../helpers/createImageUrl';
 import defaultImage from '../../images/no-image.png';
 import {
@@ -10,8 +11,12 @@ import {
 } from './MovieOverview.styled';
 
 export const MovieOverview = ({ info }) => {
-  const { poster_path, title, vote_average, overview, genres } = info;
+  const { poster_path, title, vote_average, overview, genres, release_date } =
+    info;
   const baseImgUrl = createImageUrl();
+  const releaseYear = release_date.slice(0, 4);
+  const userScore = vote_average * 10;
+
   return (
     <MovieOverviewWrapper>
       <div>
@@ -25,9 +30,12 @@ export const MovieOverview = ({ info }) => {
         </Thumb>
       </div>
       <MovieInfo>
-        <h2>{title}</h2>
+        <h2>
+          {title}
+          <span>{` (${releaseYear})`}</span>
+        </h2>
         <p>
-          User score: <span>{`${vote_average * 10}%`}</span>
+          User score: <span>{userScore}%</span>
         </p>
         {overview && (
           <>
@@ -49,4 +57,19 @@ export const MovieOverview = ({ info }) => {
       </MovieInfo>
     </MovieOverviewWrapper>
   );
+};
+
+MovieOverview.propTypes = {
+  info: PropTypes.shape({
+    poster_path: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    vote_average: PropTypes.number,
+    overview: PropTypes.string,
+    genres: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+      })
+    ),
+  }),
 };

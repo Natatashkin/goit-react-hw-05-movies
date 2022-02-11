@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { List, ListHeader, Review, ReviewText } from './Reviews.styled';
 
 export const Reviews = ({ reviews }) => {
@@ -6,11 +7,10 @@ export const Reviews = ({ reviews }) => {
   return (
     <List>
       {total_results > 0 ? (
-        results.map(({ author, content, created_at, id }) => (
+        results.map(({ author, content, id }) => (
           <Review key={id}>
             <ListHeader>
               <div>User: {author}</div>
-              <div>{created_at}</div>
             </ListHeader>
             <ReviewText>{content}</ReviewText>
           </Review>
@@ -20,4 +20,17 @@ export const Reviews = ({ reviews }) => {
       )}
     </List>
   );
+};
+
+Reviews.propTypes = {
+  reviews: PropTypes.shape({
+    total_results: PropTypes.number.isRequired,
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        author: PropTypes.string,
+        content: PropTypes.string,
+        id: PropTypes.string.isRequired,
+      })
+    ),
+  }),
 };

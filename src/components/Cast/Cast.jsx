@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   CastList,
   CastItem,
@@ -37,4 +38,15 @@ export const Cast = ({ cast }) => {
       )}
     </CastList>
   );
+};
+
+Cast.propTypes = {
+  cast: PropTypes.arrayOf(
+    PropTypes.shape({
+      cast_id: PropTypes.number,
+      profile_path: PropTypes.string,
+      character: PropTypes.string,
+      original_name: PropTypes.string,
+    })
+  ),
 };

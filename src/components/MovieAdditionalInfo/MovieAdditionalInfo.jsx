@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { AdditionalInfo, List } from './MovieAdditionalInfo.styled';
 
 export const MovieAdditionalInfo = ({ location }) => {
@@ -22,4 +23,8 @@ export const MovieAdditionalInfo = ({ location }) => {
       </AdditionalInfo>
     </>
   );
+};
+
+MovieAdditionalInfo.propTypes = {
+  location: PropTypes.object.isRequired,
 };

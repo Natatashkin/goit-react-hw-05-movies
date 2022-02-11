@@ -3,7 +3,6 @@ import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { MoviesGallery, MovieCard, Card, Button, Loader } from 'components';
 import { MoviesPageStyles, Form, Input } from './MoviePage.styled';
-
 import * as movieApi from '../../services/movieApi';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -18,6 +17,7 @@ export const MoviesPage = () => {
   function handleSubmit(e) {
     e.preventDefault();
     setSearchParams({ query: inputRef.current.value });
+    inputRef.current.value = '';
   }
 
   useEffect(() => {
