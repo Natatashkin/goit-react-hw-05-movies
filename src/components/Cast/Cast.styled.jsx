@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+const CastList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 20px;
+`;
+
 const CastItem = styled.div`
   display: flex;
   margin-bottom: ${({ theme: { spacing } }) => spacing(3)};
@@ -23,4 +30,4 @@ const Character = styled.p`
   font-weight: 700;
 `;
 
-export { CastItem, Thumb, ProfileInfo, Character };
+export { CastList, CastItem, Thumb, ProfileInfo, Character };

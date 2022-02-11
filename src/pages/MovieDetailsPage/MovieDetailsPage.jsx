@@ -14,31 +14,49 @@ import {
   AdditionalInfoLayout,
   Cast,
   Reviews,
+  Button,
+  Loader,
 } from 'components';
+import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
+import { MovieDetailsStyles } from './MovieDetailsPage.styled';
 
 export const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const location = useLocation();
+  const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
+    setLoading(true);
     async function fetchMovieById() {
-      const response = await movieApi.getMovieDetails(movieId);
-      const data = response.data;
-      setMovie(data);
+      try {
+        const response = await movieApi.getMovieDetails(movieId);
+        const data = response.data;
+        setMovie(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     }
     fetchMovieById();
   }, [movieId]);
 
   return (
-    <div>
+    <MovieDetailsStyles>
+      {loading && <Loader />}
       {movie && (
         <>
-          <button type="button">
-            <Link to={location?.state?.from ?? `/`}>Go back</Link>
-          </button>
+          <Link to={location?.state?.from ?? `/`} state={{ from: location }}>
+            <Button
+              type="button"
+              text="Go back"
+              icon={<FaRegArrowAltCircleLeft />}
+            />
+          </Link>
+
           <MovieOverview info={movie} />
-          <MovieAdditionalInfo reviews={movie.reviews} />
+          <MovieAdditionalInfo location={location?.state?.from} />
 
           <Routes>
             <Route path="cast" element={<Cast cast={movie.credits.cast} />} />
@@ -47,11 +65,12 @@ export const MovieDetailsPage = () => {
               element={<Reviews reviews={movie.reviews} />}
             />
           </Routes>
+
           <AdditionalInfoLayout>
             <Outlet />
           </AdditionalInfoLayout>
         </>
       )}
-    </div>
+    </MovieDetailsStyles>
   );
 };

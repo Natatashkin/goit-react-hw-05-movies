@@ -1,18 +1,22 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { AdditionalInfo, List } from './MovieAdditionalInfo.styled';
 
-export const MovieAdditionalInfo = () => {
+export const MovieAdditionalInfo = ({ location }) => {
   return (
     <>
       <AdditionalInfo>
         <h5>Additional information</h5>
         <List>
           <li>
-            <NavLink to={`cast`}>Cast</NavLink>
+            <NavLink to={`cast`} state={{ from: location }}>
+              Cast
+            </NavLink>
           </li>
           <li>
-            <NavLink to={`reviews`}>Reviews</NavLink>
+            <NavLink to={`reviews`} state={{ from: location }}>
+              Reviews
+            </NavLink>
           </li>
         </List>
       </AdditionalInfo>

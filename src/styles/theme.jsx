@@ -9,8 +9,10 @@ const theme = {
   spacing: value => `${4 * value}px`,
 
   options: {
-    shadow: '0px 5px 10px 2px rgba(42, 54, 59, 0.2);',
+    shadowOut: '0px 5px 10px 2px rgba(42, 54, 59, 0.2)',
+    shadowInset: '0px 5px 10px 2px rgba(42, 54, 59, 0.2) inset',
     border: `2px solid #e3e3e7`,
+    borderRadius: '5px',
   },
 };
 

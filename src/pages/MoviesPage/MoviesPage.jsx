@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
-import { MoviesGallery, MovieCard, Card } from 'components';
+import { MoviesGallery, MovieCard, Card, Button, Loader } from 'components';
+import { MoviesPageStyles, Form, Input } from './MoviePage.styled';
+
 import * as movieApi from '../../services/movieApi';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -10,12 +12,11 @@ export const MoviesPage = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams('');
   const searchQuery = searchParams.get('query');
-  const [page, setPage] = useState(1);
-  const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
-
     setSearchParams({ query: inputRef.current.value });
   }
 
@@ -23,28 +24,31 @@ export const MoviesPage = () => {
     if (!searchQuery) {
       return;
     }
-
+    setLoading(true);
     try {
       async function getMoviesByQuery() {
-        const response = await movieApi.getSearchMovie(searchQuery, page);
-        const data = response.data;
+        const data = await movieApi.getSearchMovie(searchQuery);
         if (data.total_results === 0) {
-          toast.error(`No movies on demand ${searchQuery}!`);
+          toast.error(`No movies on query ${searchQuery}!`);
+          setLoading(false);
+          return;
         }
-        setMovies(data.results);
+        setMovies(prevMovies => [...prevMovies, ...data.results]);
+        setLoading(false);
       }
       getMoviesByQuery();
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
-  }, [searchQuery, page]);
+  }, [searchQuery]);
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input ref={inputRef} type="text" />
-        <button type="submit">submit</button>
-      </form>
-
+    <MoviesPageStyles>
+      <Form onSubmit={handleSubmit}>
+        <Input ref={inputRef} type="text" placeholder="Enter title of movie" />
+        <Button type="submit" text="Search" />
+      </Form>
+      {loading && <Loader />}
       {movies && (
         <MoviesGallery>
           {movies.map(item => (
@@ -57,6 +61,6 @@ export const MoviesPage = () => {
         </MoviesGallery>
       )}
       <Toaster />
-    </>
+    </MoviesPageStyles>
   );
 };

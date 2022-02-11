@@ -10,10 +10,8 @@ const NavListLinks = styled.ul`
     font-size: 18px;
   }
 
-  .active {
-    li {
-      color: ${({ theme: { colors } }) => colors.accent};
-    }
+  a.active {
+    color: ${({ theme: { colors } }) => colors.accent};
   }
 `;
 

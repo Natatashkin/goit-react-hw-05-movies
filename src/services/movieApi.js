@@ -4,18 +4,19 @@ axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 const AUTH_TOKEN = 'c18b6e4daa60e3e4af297dba0629174d';
 
 //type 'day' or 'week'
-export const getMoviesTrending = async (type, page) => {
+export const getMoviesTrending = async type => {
   const response = await axios.get(
-    `/trending/movie/${type}?api_key=${AUTH_TOKEN}&page=${page}`
+    `/trending/movie/${type}?api_key=${AUTH_TOKEN}&language=en-US&include_adult=false`
   );
+
   return response.data;
 };
 
-export const getSearchMovie = async (query, page) => {
-  const response = axios.get(
-    `search/movie?api_key=${AUTH_TOKEN}&query=${query}&language=en-US&&page=${page}&include_adult=false`
+export const getSearchMovie = async query => {
+  const response = await axios.get(
+    `search/movie?api_key=${AUTH_TOKEN}&query=${query}&language=en-US&include_adult=false`
   );
-  return response;
+  return response.data;
 };
 
 export const getMovieDetails = async id => {

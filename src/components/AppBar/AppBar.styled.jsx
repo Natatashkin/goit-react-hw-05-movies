@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const AppBar = styled.header`
+const AppBarStyles = styled.header`
   position: sticky;
   top: 0;
 
@@ -10,4 +10,4 @@ const AppBar = styled.header`
   background-color: ${({ theme: { colors } }) => colors.white};
 `;
 
-export { AppBar };
+export { AppBarStyles };

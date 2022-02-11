@@ -1,33 +1,37 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import * as movieApi from '../../services/movieApi';
 import { HomeStyles, Title } from './HomePage.styled';
-import { MoviesGallery, MovieCard, Card } from 'components';
+import { MoviesGallery, MovieCard, Card, Loader } from 'components';
 import { Link, useLocation } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 export const HomePage = () => {
-  const [trends, setTrends] = useState(null);
-  const [page, setPage] = useState('1');
+  const [trends, setTrends] = useState([]);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    setLoading(true);
     async function fetchData() {
       try {
-        const data = await movieApi.getMoviesTrending('day', page);
-        console.log(data);
-        setTrends(data.results);
+        const data = await movieApi.getMoviesTrending('day');
+
+        setTrends(prevTrends => [...prevTrends, ...data.results]);
+        setLoading(false);
       } catch (error) {
-        toast.error(error);
+        console.log(error);
+        setLoading(false);
       }
     }
     fetchData();
-  }, [page]);
+  }, []);
+
   return (
     <HomeStyles>
       <Title>Daily Trending</Title>
       <Toaster />
-      {trends && (
+      {loading && <Loader />}
+      {trends.length > 0 && (
         <MoviesGallery>
           {trends.map(item => (
             <Card key={item.id}>
