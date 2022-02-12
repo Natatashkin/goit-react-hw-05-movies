@@ -7,7 +7,7 @@ import App from './App';
 import GlobalStyle from './styles/GlobalStyles';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.StrictMode basename="/goit-react-hw-05-movies/">
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <App />
