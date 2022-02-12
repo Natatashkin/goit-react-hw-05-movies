@@ -16,7 +16,7 @@ export const MoviesPage = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setSearchParams({ query: inputRef.current.value });
+    setSearchParams({ query: inputRef.current.value.toLowerCase() });
     inputRef.current.value = '';
   }
 
@@ -25,6 +25,7 @@ export const MoviesPage = () => {
       return;
     }
     setLoading(true);
+    setMovies([]);
     try {
       async function getMoviesByQuery() {
         const data = await movieApi.getSearchMovie(searchQuery);
@@ -33,7 +34,7 @@ export const MoviesPage = () => {
           setLoading(false);
           return;
         }
-        setMovies(prevMovies => [...prevMovies, ...data.results]);
+        setMovies(data.results);
         setLoading(false);
       }
       getMoviesByQuery();
